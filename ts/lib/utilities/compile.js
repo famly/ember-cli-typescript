@@ -86,11 +86,12 @@ function buildWatchHooks(project, ts, callbacks) {
 
       watcher.on('all', (type, rawPath) => {
         let resolvedPath = path.resolve(rawPath);
+        let isTypescriptFile = resolvedPath.endsWith('.ts') || resolvedPath.endsWith('.tsx');
 
         debug(`%s: %s (for directory watch on %s)`, type, resolvedPath, dir);
         callback(resolvedPath);
 
-        if (resolvedPath.endsWith('.ts') && callbacks.watchedFileChanged) {
+        if (isTypescriptFile && callbacks.watchedFileChanged) {
           callbacks.watchedFileChanged();
         }
       });
